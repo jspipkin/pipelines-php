@@ -35,6 +35,8 @@ stages:
             fi
     - script: echo Creating Directory for build!
 
+- stage: UnpackFiles
+  jobs:
   - job: UnpackFilesForWebServer
     steps:
     - bash: unzip <zipfile> -d /var/www/html/versions/<env>.<buildNumber>/
