@@ -1,4 +1,9 @@
 # PHP
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
 # Test and package your PHP application.
 # Add steps that run tests, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/php
