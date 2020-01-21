@@ -32,7 +32,6 @@ stages:
     steps:    
     - bash: if [ ! -d "/var/www/html/versions/<env>.<buildNumber>" ]; then
             mkdir /var/www/html/versions/<env>.<buildNumber>
-            fi
     - script: echo Creating Directory for build!
 
 - stage: UnpackFiles
