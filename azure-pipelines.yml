@@ -6,6 +6,7 @@ pool:
 
 variables:
   imageName: 'pipelines-unbuntu-docker'
+  buildNumber: ''
 
 steps:
 - task: Docker@2
