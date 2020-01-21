@@ -13,6 +13,7 @@ stages:
 - stage: DockerUnbuntuImage
   jobs:
   - job: SpoolUnbuntuImage
+    container: ubuntu:16.04 # Docker Hub image reference
     steps: 
     - bash:     
     # task: Docker@2
@@ -21,6 +22,8 @@ stages:
     #   repository: $(imageName)
     #   command: build
     #   Dockerfile: app/Dockerfile
+    - script: Building Unbuntu Docker Image!
+
 
 - stage: DeployDirectories
   jobs:
