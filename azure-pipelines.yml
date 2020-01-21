@@ -12,25 +12,33 @@ variables:
 stages:
 - stage: DockerUnbuntuImage
   jobs:
-  - job: SpoolUnbuntoImage
+  - job: SpoolUnbuntuImage
     steps: 
-
-  - job: CreateBuildDirectory
-    steps:    
-    - bash: if [ ! -d "/var/www/html/versions/<env>.<buildNumber>" ]; then
-            mkdir /var/www/html/versions/<env>.<buildNumber>
-            fi
-
-
+    - bash:     
     # task: Docker@2
     # displayName: Build an image
     # inputs:
     #   repository: $(imageName)
     #   command: build
     #   Dockerfile: app/Dockerfile
-    
+
+- stage: DeployDirectories
+  jobs:
+  - job: CreateBuildDirectory
+    steps:    
+    - bash: if [ ! -d "/var/www/html/versions/<env>.<buildNumber>" ]; then
+            mkdir /var/www/html/versions/<env>.<buildNumber>
+            fi
+
     - script: echo Creating Directory for build!
 
+  - job: UnpackFilesForWebServer
+    steps:
+    - bash: unzip <zipfile> -d /var/www/html/versions/<env>.<buildNumber>/
+            mv /var/www/html/versions/<env>.<buildNumber>/settings/banks.<env>.json /var/www/html/versions/<env>.<buildNumber>/settings/banks.json 
+            rm -f /var/www/html/versions/<env>.<buildNumber>/settings/banks.*.json
+            chgrp -R deployment /var/www/html/versions/<env>.<buildNumber>/
+            chmod 770 /var/www/html/versions/<env>.<buildNumber>/cache
 
 
 
