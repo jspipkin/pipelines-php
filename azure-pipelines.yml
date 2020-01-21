@@ -7,6 +7,7 @@ pool:
 variables:
   imageName: 'pipelines-unbuntu-docker'
   buildNumber: $(Date:yyyyMMdd)$(Rev:.r)
+  environment: 'QA'
 
 
 stages:
@@ -30,7 +31,7 @@ stages:
   jobs:
   - job: CreateDeployDirectory
     steps:    
-    - bash: if [ ! -d "/var/www/html/versions/<env>.<buildNumber>"]; then mkdir /var/www/html/versions/<env>.<buildNumber>
+    - bash: if [ ! -d "/var/www/html/versions/<environment>.<buildNumber>"];then mkdir /var/www/html/versions/<environment>.<buildNumber>
     - script: echo Creating Directory for build!
 
 - stage: UnpackFiles
