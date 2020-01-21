@@ -31,7 +31,7 @@ stages:
   jobs:
   - job: CreateDeployDirectory
     steps:    
-    - bash: if [ ! -d "/var/www/html/versions/<environment>.<buildNumber>"];then mkdir "/var/www/html/versions/<environment>.<buildNumber>"
+    - bash: if [ ! -d "/var/www/html/versions/<environment>.<buildNumber>"];then mkdir /var/www/html/versions/<environment>.<buildNumber>
     - script: echo Creating Directory for build!
 
 - stage: UnpackFiles
