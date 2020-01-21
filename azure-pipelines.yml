@@ -24,7 +24,7 @@ stages:
 
 - stage: DeployDirectories
   jobs:
-  - job: CreateBuildDirectory
+  - job: CreateDeployDirectory
     steps:    
     - bash: if [ ! -d "/var/www/html/versions/<env>.<buildNumber>" ]; then
             mkdir /var/www/html/versions/<env>.<buildNumber>
@@ -39,24 +39,19 @@ stages:
             rm -f /var/www/html/versions/<env>.<buildNumber>/settings/banks.*.json
             chgrp -R deployment /var/www/html/versions/<env>.<buildNumber>/
             chmod 770 /var/www/html/versions/<env>.<buildNumber>/cache
+    - script: Unpacking Web Server Files!
 
-
-
-
-    
-- stage: DeployToUnbuntuImage
+- stage: PointWebServerToRelease
   jobs:
-  - job: TestOnWindows
+  - job: PointWebServer
     steps:
-    - script: echo Testing on Windows!
-  - job: TestOnLinux
-    steps:
-    - script: echo Testing on Linux!
-- stage: Deploy
-  jobs:
-  - job: Deploy
-    steps:
-    - script: echo Deploying the code!
+    - bash: rm /var/www/html/versions/current
+            ln -s /var/www/html/versions/<env>.<buildNumber>/var/www/html/versions/current
+
+    - script: Pointing Web Server to Current Release!
+
+
+
 
 
 
