@@ -29,7 +29,6 @@ stages:
     - bash: if [ ! -d "/var/www/html/versions/<env>.<buildNumber>" ]; then
             mkdir /var/www/html/versions/<env>.<buildNumber>
             fi
-
     - script: echo Creating Directory for build!
 
   - job: UnpackFilesForWebServer
@@ -47,7 +46,6 @@ stages:
     steps:
     - bash: rm /var/www/html/versions/current
             ln -s /var/www/html/versions/<env>.<buildNumber>/var/www/html/versions/current
-
     - script: Pointing Web Server to Current Release!
 
 
@@ -56,8 +54,20 @@ stages:
   - job: DBBackup
     steps:
     - bash: /opt/bim/backups/bin/dbbimapi_backup.sh
-
     - script: Backing Up DB Server!
 
+- stage: DBMigrationScripts
+  jobs:
+  - job: DBMigrations
+    steps:
+    - bash: cp /data01/bin/phinx /var/www/html/versions/current/db/vendor/robmorgan/phinx/bin
+            cd /var/www/html/versions/current/db
+            php vendor/robmorgan/phinx/bin/phinx migrate -e qabus -c /etc/bim-api/phinx.yml
+    - script: Running DB Migration Scripts!
 
-
+- stage: WebServiceRestart
+  jobs:
+  - job: ApacheRestart
+    steps:
+    - bash: sudo /sbin/apachectl restart
+    - script: Restarting Web Server!
