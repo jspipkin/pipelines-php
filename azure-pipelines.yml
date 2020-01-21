@@ -26,3 +26,18 @@ steps:
 
 - script: composer install --no-interaction --prefer-dist
   displayName: 'composer install'
+
+  trigger:
+- master
+
+
+variables:
+  imageName: 'pipelines-unbuntuphp-docker'
+
+steps:
+- task: Docker@2
+  displayName: Build an image
+  inputs:
+    repository: $(imageName)
+    command: build
+    Dockerfile: app/Dockerfile
