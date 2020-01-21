@@ -8,10 +8,41 @@ variables:
   imageName: 'pipelines-unbuntu-docker'
   buildNumber: ''
 
-steps:
-- task: Docker@2
+
+
+stages:
+- stage: DockerUnbuntuImage
+  jobs:
+  - job: BuildUnbuntuImage
+    
+    steps:
+
+    task: Docker@2
   displayName: Build an image
   inputs:
     repository: $(imageName)
     command: build
     Dockerfile: app/Dockerfile
+    
+    - script: echo Building!
+
+
+
+
+    
+- stage: DeployToUnbuntuImage
+  jobs:
+  - job: TestOnWindows
+    steps:
+    - script: echo Testing on Windows!
+  - job: TestOnLinux
+    steps:
+    - script: echo Testing on Linux!
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    steps:
+    - script: echo Deploying the code!
+
+
+
