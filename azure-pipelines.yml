@@ -13,7 +13,8 @@ stages:
 - stage: DockerUnbuntuImage
   jobs:
   - job: SpoolUnbuntuImage
-    container: ubuntu:16.04 # Docker Hub image reference
+    container: ubuntu:16.04 
+    # Docker Hub image reference
     steps: 
     # - bash:     
     # # task: Docker@2
@@ -22,7 +23,7 @@ stages:
     # #   repository: $(imageName)
     # #   command: build
     # #   Dockerfile: app/Dockerfile
-    - script: Building Unbuntu Docker Image!
+    - script: echo Building Unbuntu Docker Image!
 
 
 - stage: DeployDirectories
@@ -41,7 +42,7 @@ stages:
             rm -f /var/www/html/versions/<env>.<buildNumber>/settings/banks.*.json
             chgrp -R deployment /var/www/html/versions/<env>.<buildNumber>/
             chmod 770 /var/www/html/versions/<env>.<buildNumber>/cache
-    - script: Unpacking Web Server Files!
+    - script: echo Unpacking Web Server Files!
 
 - stage: PointWebServerToRelease
   jobs:
@@ -49,7 +50,7 @@ stages:
     steps:
     - bash: rm /var/www/html/versions/current
             ln -s /var/www/html/versions/<env>.<buildNumber>/var/www/html/versions/current
-    - script: Pointing Web Server to Current Release!
+    - script: echo Pointing Web Server to Current Release!
 
 
 - stage: DBServerBackup
@@ -66,11 +67,11 @@ stages:
     - bash: cp /data01/bin/phinx /var/www/html/versions/current/db/vendor/robmorgan/phinx/bin
             cd /var/www/html/versions/current/db
             php vendor/robmorgan/phinx/bin/phinx migrate -e qabus -c /etc/bim-api/phinx.yml
-    - script: Running DB Migration Scripts!
+    - script: echo Running DB Migration Scripts!
 
 - stage: WebServiceRestart
   jobs:
   - job: ApacheRestart
     steps:
     - bash: sudo /sbin/apachectl restart
-    - script: Restarting Web Server!
+    - script: echo Restarting Web Server!
