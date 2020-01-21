@@ -51,7 +51,13 @@ stages:
     - script: Pointing Web Server to Current Release!
 
 
+- stage: DBServerBackup
+  jobs:
+  - job: DBBackup
+    steps:
+    - bash: /opt/bim/backups/bin/dbbimapi_backup.sh
 
+    - script: Backing Up DB Server!
 
 
 
