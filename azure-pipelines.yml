@@ -76,3 +76,4 @@ stages:
     steps:
     - bash: sudo /sbin/apachectl restart
     - script: echo Restarting Web Server!
+    
